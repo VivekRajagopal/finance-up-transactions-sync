@@ -1,0 +1,60 @@
+{
+  "type": "transactions",
+  "id": "45374614-d456-4868-9650-ab204be05f68",
+  "attributes": {
+    "status": "SETTLED",
+    "rawText": null,
+    "description": "David Taylor",
+    "message": "Money for the pizzas last night.",
+    "isCategorizable": true,
+    "holdInfo": null,
+    "roundUp": null,
+    "cashback": null,
+    "amount": {
+      "currencyCode": "AUD",
+      "value": "-59.98",
+      "valueInBaseUnits": -5998
+    },
+    "foreignAmount": null,
+    "cardPurchaseMethod": null,
+    "settledAt": "2022-03-21T03:10:21+11:00",
+    "createdAt": "2022-03-21T03:10:21+11:00"
+  },
+  "relationships": {
+    "account": {
+      "data": {
+        "type": "accounts",
+        "id": "bd57bbc7-0159-415e-b650-7ac29218985c"
+      },
+      "links": {
+        "related": "https://api.up.com.au/api/v1/accounts/bd57bbc7-0159-415e-b650-7ac29218985c"
+      }
+    },
+    "transferAccount": {
+      "data": null
+    },
+    "category": {
+      "data": null,
+      "links": {
+        "self": "https://api.up.com.au/api/v1/transactions/45374614-d456-4868-9650-ab204be05f68/relationships/category"
+      }
+    },
+    "parentCategory": {
+      "data": null
+    },
+    "tags": {
+      "data": [
+        {
+          "type": "tags",
+          "id": "Pizza Night"
+        }
+      ],
+      "links": {
+        "self": "https://api.up.com.au/api/v1/transactions/45374614-d456-4868-9650-ab204be05f68/relationships/tags"
+      }
+    }
+  },
+  "links": {
+    "self": "https://api.up.com.au/api/v1/transactions/45374614-d456-4868-9650-ab204be05f68"
+  }
+}

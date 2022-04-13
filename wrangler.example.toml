@@ -1,0 +1,20 @@
+name = "finance-up-transactions-sync"
+type = "javascript"
+account_id = "<your account id>"
+workers_dev = true
+route = "dev"
+kv_namespaces = [
+  { binding = "KV_FINANCE", id = "<production KV id>", preview_id = "<dev KV id>" }
+]
+
+[build]
+command = "npm install && npm run build"
+[build.upload]
+format = "service-worker"
+
+[secrets]
+AIRTABLE_API_KEY=""
+UP_API_KEY=""
+
+[triggers]
+crons = ["0 */1 * * *"]
