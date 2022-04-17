@@ -1,0 +1,16 @@
+{
+  "id": "recUvrsDbsGLu7ykR",
+  "createdTime": "2022-04-16T11:04:31.000Z",
+  "fields": {
+    "TransactionId": "ee73fe3d-ca87-4752-87b9-a8af2daff531",
+    "AccountId": "026d9000-e5d9-4dd5-836e-ac7cf8c28e18",
+    "Description": "Hello World Coffee",
+    "Category": "good-life",
+    "SubCategory": "restaurants-and-cafes",
+    "AmountDollars": -5.50,
+    "Status": "SETTLED",
+    "RawText": "Hello World Coffee",
+    "SettledAt": "2022-04-16T00:37:01.000Z",
+    "CreatedAt": "2022-04-16T00:37:01.000Z"
+  }
+}

@@ -1,15 +1,15 @@
 import { syncUpTransactionsAsync } from './handler'
 
 addEventListener('scheduled', (event) => {
-  event.waitUntil(
-    syncUpTransactionsAsync(Date.now())
-      .then(() => {
-        KV_FINANCE.put('last-result', 'ok')
-      })
-      .catch((err) => KV_FINANCE.put('last-result', JSON.stringify({ err }))),
-  )
+  event.waitUntil(syncUpTransactionsAsync(Date.now()).then())
 })
 
 addEventListener('fetch', (event) => {
-  event.respondWith(syncUpTransactionsAsync(Date.now()))
+  event.respondWith(
+    syncUpTransactionsAsync(Date.now()).then((result) => {
+      return new Response(JSON.stringify(result), {
+        status: 200,
+      })
+    }),
+  )
 })

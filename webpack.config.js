@@ -10,10 +10,6 @@ module.exports = {
   mode: 'development',
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
-    alias: {
-      logic: path.resolve(__dirname, 'src/logic'),
-      util: path.resolve(__dirname, 'src/util'),
-    },
   },
   module: {
     rules: [

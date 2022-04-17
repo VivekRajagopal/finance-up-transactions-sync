@@ -7,9 +7,9 @@ export type Transaction = TransactionsResponse['data'][number]
 
 const UpApiV1BaseUrl = 'https://api.up.com.au/api/v1/'
 
-export async function GetSettledTransactionsAsync(): Promise<TransactionsResponse> {
+export async function getSettledTransactionsAsync(): Promise<TransactionsResponse> {
   const response = await fetch(
-    `${UpApiV1BaseUrl}/transactions?filter[status]=SETTLED&page[size]=100`,
+    `${UpApiV1BaseUrl}/transactions?filter[status]=SETTLED&page[size]=95`,
     {
       headers: { Authorization: `Bearer ${UP_API_KEY}` },
     },

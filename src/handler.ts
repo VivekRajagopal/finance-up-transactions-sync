@@ -1,23 +1,26 @@
-import { createUpTransactionsAsync } from './airtable-client'
+import {
+  createUpTransactionsAsync,
+  getUpTransactionsAsync,
+  Record,
+  UpTransactionRow,
+} from './airtable-client'
 import { fromUpTransaction } from './logic/mapping/airtable-record'
 import { findUnsyncedUpTransactions } from './logic/transactions-syncing'
-import { getLastRunAsync, updateLastRunAsync } from './state/last-run'
-import {
-  getSyncedRecordsAsync,
-  SyncedRecord,
-  updateSyncedRecordsAsync,
-} from './state/synced-records'
-import { GetSettledTransactionsAsync } from './up-client'
+import { logRunAsync } from './state/run-log'
+import { getSettledTransactionsAsync } from './up-client'
+
+type HandlerResult =
+  | { _tag: 'Sync'; newSyncedRows: Record<UpTransactionRow>[] }
+  | { _tag: 'NoSync'; existingSyncedRecords: Record<UpTransactionRow>[] }
 
 export async function syncUpTransactionsAsync(
   currentDateTimestamp: number,
-): Promise<Response> {
-  const lastRun = await getLastRunAsync()
-
+): Promise<HandlerResult> {
   const startedAt = new Date(currentDateTimestamp)
 
-  const transactionsResponse = await GetSettledTransactionsAsync()
-  const existingSyncedRecords = await getSyncedRecordsAsync()
+  const transactionsResponse = await getSettledTransactionsAsync()
+
+  const existingSyncedRecords = await getUpTransactionsAsync()
 
   const transactionsToSync = findUnsyncedUpTransactions(
     transactionsResponse.data,
@@ -31,40 +34,14 @@ export async function syncUpTransactionsAsync(
       airtableRecordsToCreate,
     )
 
-    const newIterationId = (lastRun?.Iteration ?? 0) + 1
-    const syncedRecords: SyncedRecord[] = createdAirtableRecords.map((r) => ({
-      AirtableRecordId: r.id,
-      UpTransactionId: r.fields.TransactionId,
-      SyncRunId: newIterationId,
-    }))
-
-    await updateSyncedRecordsAsync(existingSyncedRecords, syncedRecords)
-
-    await updateLastRunAsync({
-      StartedAt: startedAt,
-      Iteration: newIterationId,
-      TransactionsSyncedCount: syncedRecords.length,
+    await logRunAsync(startedAt, {
+      SyncedRecords: createdAirtableRecords,
     })
 
-    return new Response(
-      JSON.stringify({
-        existingSyncedRecords,
-        transactionsToSync,
-        syncedRecords,
-      }),
-      {
-        status: 200,
-      },
-    )
+    return { _tag: 'Sync', newSyncedRows: createdAirtableRecords }
   } else {
-    return new Response(
-      JSON.stringify({
-        existingSyncedRecords,
-        transactionsToSync,
-      }),
-      {
-        status: 200,
-      },
-    )
+    await logRunAsync(startedAt, 'NoSync')
+
+    return { _tag: 'NoSync', existingSyncedRecords }
   }
 }

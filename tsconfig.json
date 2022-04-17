@@ -16,9 +16,6 @@
       "@types/jest",
       "@types/service-worker-mock"
     ],
-    "paths": {
-      "@logic/*": ["src/logic/*"]
-    }
   },
   "include": ["src"],
   "exclude": ["node_modules", "dist", "test"],

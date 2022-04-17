@@ -1,10 +1,10 @@
-import { SyncedRecord } from '../state/synced-records'
+import { Record, UpTransactionRow } from '../airtable-client'
 import { Transaction } from '../up-client'
 
 export const findUnsyncedUpTransactions = (
   transactions: Transaction[],
-  syncedRecords: SyncedRecord[],
+  syncedRecords: Record<UpTransactionRow>[],
 ): Transaction[] =>
   transactions.filter(
-    (t) => !syncedRecords.find((r) => r.UpTransactionId === t.id),
+    (t) => !syncedRecords.find((r) => r.fields.TransactionId === t.id),
   )

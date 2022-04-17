@@ -3,17 +3,15 @@ import { Transaction } from '../../src/up-client/index'
 import { findUnsyncedUpTransactions } from '../../src/logic/transactions-syncing'
 
 import transactionResource from '../../res/samples/up-transaction.json'
-import { SyncedRecord } from '../../src/state/synced-records'
+import { Record, UpTransactionRow } from '../../src/airtable-client'
 
-function withTransactionId(transaction: Transaction, id: string) {
-  return { ...transaction, id }
-}
+import { withTransactionId } from '../helpers/transaction-helpers'
 
 describe('syncing', () => {
   const transaction = transactionResource as Transaction
 
   test('empty sync', () => {
-    const syncedRecords: SyncedRecord[] = []
+    const syncedRecords: Record<UpTransactionRow>[] = []
     const newUpTransactions = [transaction, transaction].map((tr, i) =>
       withTransactionId(tr, i.toString()),
     )
@@ -26,16 +24,30 @@ describe('syncing', () => {
   })
 
   test('empty transactions', () => {
-    const syncedRecords: SyncedRecord[] = [
+    const syncedRecords: Record<UpTransactionRow>[] = [
       {
-        AirtableRecordId: 'airtable-record-1',
-        UpTransactionId: 'up-transaction-1',
-        SyncRunId: 22,
+        id: 'airtable-record-1',
+        createdTime: '2022-01-01',
+        fields: {
+          AccountId: 'account-id',
+          TransactionId: 'up-transaction-1',
+          AmountDollars: 32.5,
+          CreatedAt: 'created-at',
+          Description: '',
+          Status: 'SETTLED',
+        },
       },
       {
-        AirtableRecordId: 'airtable-record-2',
-        UpTransactionId: 'up-transaction-2',
-        SyncRunId: 23,
+        id: 'airtable-record-2',
+        createdTime: '2022-01-01',
+        fields: {
+          AccountId: 'account-id',
+          TransactionId: 'up-transaction-2',
+          AmountDollars: 22.55,
+          CreatedAt: 'created-at',
+          Description: '',
+          Status: 'SETTLED',
+        },
       },
     ]
 
@@ -49,16 +61,30 @@ describe('syncing', () => {
   })
 
   test('fully synced', () => {
-    const syncedRecords: SyncedRecord[] = [
+    const syncedRecords: Record<UpTransactionRow>[] = [
       {
-        AirtableRecordId: 'airtable-record-1',
-        UpTransactionId: 'up-transaction-1',
-        SyncRunId: 22,
+        id: 'airtable-record-1',
+        createdTime: '2022-01-01',
+        fields: {
+          AccountId: 'account-id',
+          TransactionId: 'up-transaction-1',
+          AmountDollars: 32.5,
+          CreatedAt: 'created-at',
+          Description: '',
+          Status: 'SETTLED',
+        },
       },
       {
-        AirtableRecordId: 'airtable-record-2',
-        UpTransactionId: 'up-transaction-2',
-        SyncRunId: 23,
+        id: 'airtable-record-2',
+        createdTime: '2022-01-01',
+        fields: {
+          AccountId: 'account-id',
+          TransactionId: 'up-transaction-2',
+          AmountDollars: 22.55,
+          CreatedAt: 'created-at',
+          Description: '',
+          Status: 'SETTLED',
+        },
       },
     ]
 
@@ -74,16 +100,30 @@ describe('syncing', () => {
   })
 
   test('partially synced', () => {
-    const syncedRecords: SyncedRecord[] = [
+    const syncedRecords: Record<UpTransactionRow>[] = [
       {
-        AirtableRecordId: 'airtable-record-1',
-        UpTransactionId: 'up-transaction-1',
-        SyncRunId: 22,
+        id: 'airtable-record-1',
+        createdTime: '2022-01-01',
+        fields: {
+          AccountId: 'account-id',
+          TransactionId: 'up-transaction-1',
+          AmountDollars: 32.5,
+          CreatedAt: 'created-at',
+          Description: '',
+          Status: 'SETTLED',
+        },
       },
       {
-        AirtableRecordId: 'airtable-record-2',
-        UpTransactionId: 'up-transaction-2',
-        SyncRunId: 23,
+        id: 'airtable-record-2',
+        createdTime: '2022-01-01',
+        fields: {
+          AccountId: 'account-id',
+          TransactionId: 'up-transaction-2',
+          AmountDollars: 22.55,
+          CreatedAt: 'created-at',
+          Description: '',
+          Status: 'SETTLED',
+        },
       },
     ]
 
